@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiGet, apiPost, apiPut } from "@/lib/api";
-import { parseCsv, CsvRow } from "@/lib/csv";
+import { parseCsv, CsvRow, ValidatedCsvRow } from "@/lib/csv";
 import { useAuth } from "@/stores/auth";
 import {
   Upload, FileText, CheckCircle2, XCircle, Download, Loader2,
@@ -30,12 +30,6 @@ interface RowDetail {
   identity_status: string;
   enrolment_status: string;
   admission_date: string;
-}
-
-interface ValidatedRow extends CsvRow {
-  _row_number: number;
-  _valid: boolean;
-  _errors: string[];
 }
 
 interface TokenModal {
@@ -96,7 +90,7 @@ export default function Submission() {
   const [msg, setMsg] = useState<string | null>(null);
 
   // Upload
-  const [previewRows, setPreviewRows] = useState<ValidatedRow[]>([]);
+  const [previewRows, setPreviewRows] = useState<ValidatedCsvRow[]>([]);
   const [previewStats, setPreviewStats] = useState<any>(null);
   const [csvFileName, setCsvFileName] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);

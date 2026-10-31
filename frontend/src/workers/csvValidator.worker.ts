@@ -8,13 +8,7 @@
  * Output: { validated: ValidatedRow[], stats: {...} }
  */
 
-import type { CsvRow } from "../lib/csv";
-
-interface ValidatedRow extends CsvRow {
-  _row_number: number;
-  _valid: boolean;
-  _errors: string[];
-}
+import type { CsvRow, ValidatedCsvRow } from "../lib/csv";
 
 interface WorkerIn {
   rows: CsvRow[];
@@ -27,7 +21,7 @@ const ctx: DedicatedWorkerGlobalScope = self as any;
 const APAAR_RE = /^\d{12}$/;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
-function validateRow(row: CsvRow, idx: number, required: string[], programCodes: string[]): ValidatedRow {
+function validateRow(row: CsvRow, idx: number, required: string[], programCodes: string[]): ValidatedCsvRow {
   const errors: string[] = [];
 
   // Required fields present
@@ -57,7 +51,7 @@ function validateRow(row: CsvRow, idx: number, required: string[], programCodes:
 
 ctx.onmessage = (e: MessageEvent<WorkerIn>) => {
   const { rows, requiredFields, validProgramCodes } = e.data;
-  const validated: ValidatedRow[] = [];
+  const validated: ValidatedCsvRow[] = [];
   const validSet = new Set<string>();
 
   for (let i = 0; i < rows.length; i++) {

@@ -1,6 +1,19 @@
 /** Minimal CSV parser — no external deps. Handles quoted fields + escaped quotes. */
 export interface CsvRow { [key: string]: string; }
 
+export interface ValidatedCsvRow {
+  [key: string]: string | number | boolean | string[];
+  _row_number: number;
+  _valid: boolean;
+  _errors: string[];
+  student_id_inst?: string;
+  student_name?: string;
+  apaar_id?: string;
+  program_code?: string;
+  admission_date?: string;
+  category?: string;
+}
+
 export function parseCsv(text: string): { headers: string[]; rows: CsvRow[]; error?: string } {
   const lines: string[] = [];
   let cur = "";
