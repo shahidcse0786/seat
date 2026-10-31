@@ -2,7 +2,7 @@
 export interface CsvRow { [key: string]: string; }
 
 export interface ValidatedCsvRow {
-  [key: string]: string | number | boolean | string[];
+  [key: string]: string | number | boolean | string[] | undefined;
   _row_number: number;
   _valid: boolean;
   _errors: string[];
